@@ -1,17 +1,27 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <task-list :tasks="tasks" />
+    <create-task @onCreateTask="addTask($event)" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
+import TaskList from './components/TaskList.vue';
+import CreateTask from './components/CreateTask.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
+    TaskList,
+    CreateTask,
+  },
+  data: () => ({
+    tasks: ['test', 'testtest', 'test2'],
+  }),
+  methods: {
+    addTask(task) {
+      this.tasks.push(task);
+    },
   },
 };
 </script>
