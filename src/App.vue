@@ -16,7 +16,7 @@ export default {
     CreateTask,
   },
   data: () => ({
-    tasks: ['test', 'testtest', 'test2'],
+    tasks: ['Hello', 'World'],
   }),
   methods: {
     addTask(task) {
