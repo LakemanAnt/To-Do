@@ -5,15 +5,24 @@
         No tasks
       </p>
     </div>
-    <div v-else class="task" v-for="(task, index) in tasks" v-bind:key="index">
-      {{ task }}
-      <button class="btn btn-danger" @click="deleteTask(index)">Delete</button>
-    </div>
+    <task
+      @onDeleteTask="deleteTask($event)"
+      v-else
+      v-for="(task, index) in tasks"
+      v-bind:key="task.id"
+      :index="index"
+      :task="task"
+    />
   </div>
 </template>
 
 <script>
+import Task from './Task.vue'
+
 export default {
+  components: {
+    Task,
+  },
   props: {
     tasks: {
       type: Array,
@@ -21,13 +30,13 @@ export default {
   },
   methods: {
     deleteTask(id) {
-      console.log(id);
-      if (id !== -1) this.tasks.splice(id, 1);
-      console.log(this.tasks);
-      this.$emit('onDeleteTask', id);
+      const index = this.tasks.findIndex(n => n.id === id)
+      if (index !== -1) {
+        this.tasks.splice(index, 1)
+      }
     },
   },
-};
+}
 </script>
 
 <style scoped>
@@ -38,11 +47,6 @@ export default {
   margin-left: 50% !important;
   transform: translateX(-50%);
   max-width: 600px;
-}
-.task {
-  padding: 10px;
-  font-size: 20px;
-  overflow-x: hidden;
 }
 p {
   color: rgb(124, 124, 233);

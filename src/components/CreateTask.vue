@@ -3,32 +3,38 @@
     <input
       class="form-control"
       type="text"
-      :value="task"
+      :value="task.name"
       v-on:input="changeHandler($event)"
       @keydown.enter="addTask"
     />
-    <button class="btn btn-primary m-3" :disabled="!this.task" @click="addTask">Add task</button>
+    <button class="btn btn-primary m-3" :disabled="!this.task.name" @click="addTask">
+      Add task
+    </button>
   </div>
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid'
+
 export default {
   data: () => ({
-    task: '',
+    task: { id: '', name: '' },
   }),
   methods: {
     changeHandler(event) {
-      this.task = event.target.value;
+      this.task.name = event.target.value
     },
     addTask() {
-      if (!this.task) {
-        return;
+      if (!this.task.name) {
+        return
       }
-      this.$emit('onCreateTask', this.task);
-      this.task = '';
+      this.task.id = uuidv4()
+      this.$emit('onCreateTask', this.task)
+      // this.task = '';
+      this.$router.push('/')
     },
   },
-};
+}
 </script>
 
 <style>
